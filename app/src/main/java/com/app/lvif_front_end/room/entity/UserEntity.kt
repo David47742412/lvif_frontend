@@ -9,24 +9,19 @@ import androidx.room.PrimaryKey
  * */
 @Entity(tableName = "user")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = false)
-    val userId: String,
+    @PrimaryKey(autoGenerate = false) val userId: String,
 
-    @ColumnInfo(name = "alias")
-    val alias: String,
+    @ColumnInfo(name = "alias") val alias: String,
 
-    @ColumnInfo(name = "email")
-    val email: String,
+    @ColumnInfo(name = "email") val email: String,
 
-    @ColumnInfo(name = "image")
-    val image: String,
+    @ColumnInfo(name = "image") val image: String,
 
-    @ColumnInfo(name = "last_name")
-    val lastName: String,
+    @ColumnInfo(name = "last_name") val lastName: String,
 
-    @ColumnInfo(name = "name")
-    val name: String,
+    @ColumnInfo(name = "name") val name: String,
 
-    @ColumnInfo(name = "username")
-    val username: String
+    @ColumnInfo(name = "username") val username: String,
+
+    @ColumnInfo(name = "token") val token: String
 )

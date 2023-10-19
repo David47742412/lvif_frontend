@@ -1,5 +1,6 @@
 package com.app.lvif_front_end.view.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,25 +16,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.app.lvif_front_end.viewmodel.login.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController) {
-    var emailOrUsername by rememberSaveable { mutableStateOf("") }
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hiltViewModel()) {
+    var emailOrUsername by rememberSaveable {
+        mutableStateOf("")
+    }
+
     var password by rememberSaveable {
         mutableStateOf("")
     }
 
     BoxWithConstraints(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
+        contentAlignment = Alignment.Center, modifier = Modifier
             .fillMaxSize()
             .padding(5.dp)
     ) {
@@ -42,24 +48,22 @@ fun LoginScreen(navController: NavHostController) {
                 text = "Nombre de usuario o email",
                 modifier = Modifier.layoutId("lblEmailOrUsername")
             )
-            OutlinedTextField(
-                value = emailOrUsername,
+            OutlinedTextField(value = emailOrUsername,
                 onValueChange = { emailOrUsername = it },
                 modifier = Modifier.layoutId("emailOrUsername"),
                 label = {
                     Text(text = "Nombre de usuario o email")
-                }
-            )
+                })
             Text(text = "Contraseña", modifier = Modifier.layoutId("lblPassword"))
-            OutlinedTextField(
-                value = password,
+            OutlinedTextField(value = password,
                 onValueChange = { password = it },
                 Modifier.layoutId("password"),
                 label = {
                     Text(text = "Contraseña")
-                }
-            )
-            Button(onClick = { }, modifier = Modifier.layoutId("btnAuth")) {
+                })
+            Button(onClick = {
+                viewModel.login(emailOrUsername, password, navController)
+            }, modifier = Modifier.layoutId("btnAuth")) {
                 Text(text = "Iniciar sesión")
             }
         }

@@ -19,4 +19,7 @@ class UserService @Inject constructor(
         }
     }
 
+    fun insert(userEntity: UserEntity) {
+        _userDao.insertUser(userEntity)
+    }
 }

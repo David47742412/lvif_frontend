@@ -1,4 +1,4 @@
-package com.app.lvif_front_end.di.module
+package com.app.lvif_front_end.di.module.room
 
 import android.content.Context
 import androidx.room.Room
@@ -6,7 +6,6 @@ import com.app.lvif_front_end.room.dao.UserDao
 import com.app.lvif_front_end.room.database.LvifDatabase
 import dagger.Module
 import dagger.Provides
-import dagger.assisted.Assisted
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
