@@ -1,7 +1,6 @@
 package com.app.lvif_front_end.api
 
 import androidx.room.Delete
-import com.app.lvif_front_end.models.login.UserModel
 import com.app.lvif_front_end.models.template.ResponseApi
 import retrofit2.Call
 import retrofit2.http.Body

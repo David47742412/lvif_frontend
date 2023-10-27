@@ -1,7 +1,7 @@
 package com.app.lvif_front_end.usecase.login
 
 import com.app.lvif_front_end.api.ILvifApi
-import com.app.lvif_front_end.models.login.UserModel
+import com.app.lvif_front_end.models.user.UserModel
 import com.app.lvif_front_end.models.template.ResponseApi
 import com.app.lvif_front_end.room.entity.UserEntity
 import com.app.lvif_front_end.room.service.UserService

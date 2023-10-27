@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.app.lvif_front_end.models.login.UserModel
+import com.app.lvif_front_end.models.user.UserModel
 import com.app.lvif_front_end.usecase.login.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

@@ -1,4 +1,4 @@
-package com.app.lvif_front_end.models.login
+package com.app.lvif_front_end.models.user
 
 import com.google.gson.annotations.SerializedName
 
