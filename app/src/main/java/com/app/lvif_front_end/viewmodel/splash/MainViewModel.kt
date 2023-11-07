@@ -1,6 +1,5 @@
-package com.app.lvif_front_end.viewmodel.home
+package com.app.lvif_front_end.viewmodel.splash
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +12,6 @@ import com.app.lvif_front_end.usecase.book.BookUseCase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -22,9 +20,11 @@ import okhttp3.WebSocket
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val _service: UserService
 ) : ViewModel() {
+    private val _users = MutableLiveData<List<UserEntity>>()
+    val users: LiveData<List<UserEntity>> = _users
 
     private val _bookUseCase = BookUseCase()
     private val _gson = Gson()
@@ -41,21 +41,26 @@ class HomeViewModel @Inject constructor(
         getUser()
     }
 
-    private fun getUser() {
+    fun getUser() {
         this._service.getAllUser()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object : DisposableSingleObserver<List<UserEntity>>() {
                 override fun onSuccess(result: List<UserEntity>) {
-                    val tempUser = result[0]
-                    _currentUser.postValue(tempUser)
-                    ws = _bookUseCase.onInit(
-                        "book",
-                        tempUser.token,
-                        onOpenWs = { ws, res -> onOpenWs(ws, res) },
-                        onErrorWs = { ws, t, res -> onErrorWs(ws, t, res) },
-                        onMessageWs = { ws, text -> onMessageWs(ws, text) },
-                    )
+                    if (result.isNotEmpty()) {
+                        val tempUser = result[0]
+                        _users.value = result
+                        _currentUser.postValue(tempUser)
+                        ws = _bookUseCase.onInit(
+                            "book",
+                            tempUser.token,
+                            onOpenWs = { ws, res -> onOpenWs(ws, res) },
+                            onErrorWs = { ws, t, res -> onErrorWs(ws, t, res) },
+                            onMessageWs = { ws, text -> onMessageWs(ws, text) },
+                        )
+                        return;
+                    }
+                    _users.value = emptyList();
                 }
 
                 override fun onError(e: Throwable) {
@@ -80,5 +85,4 @@ class HomeViewModel @Inject constructor(
 
         Log.i("connect-ws-msg", "ws-connected-msg ${_books.value?.size}")
     }
-
 }

@@ -26,10 +26,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.app.lvif_front_end.viewmodel.login.LoginViewModel
+import com.app.lvif_front_end.viewmodel.splash.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hiltViewModel(), mainViewModel: MainViewModel) {
     var emailOrUsername by rememberSaveable {
         mutableStateOf("")
     }
@@ -62,20 +63,14 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = hi
                     Text(text = "Contraseña")
                 })
             Button(onClick = {
-                viewModel.login(emailOrUsername, password, navController)
+                viewModel.login(emailOrUsername, password, navController, mainViewModel)
+
             }, modifier = Modifier.layoutId("btnAuth")) {
                 Text(text = "Iniciar sesión")
             }
         }
     }
 
-}
-
-@Composable
-@Preview(showSystemUi = true)
-fun LoginPreview() {
-    val navController = rememberNavController();
-    LoginScreen(navController)
 }
 
 private fun constraintSet(): ConstraintSet {

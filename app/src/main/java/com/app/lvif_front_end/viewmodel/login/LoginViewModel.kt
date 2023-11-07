@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.app.lvif_front_end.models.user.UserModel
 import com.app.lvif_front_end.usecase.login.LoginUseCase
+import com.app.lvif_front_end.viewmodel.splash.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -27,7 +28,8 @@ class LoginViewModel @Inject constructor(
     fun login(
         username: String,
         password: String,
-        navController: NavHostController
+        navController: NavHostController,
+        mainViewModel: MainViewModel
     ) {
         _useCase.login(username, password)
             .subscribeOn(Schedulers.io())
@@ -38,6 +40,7 @@ class LoginViewModel @Inject constructor(
                 }
 
                 override fun onSuccess(user: UserModel) {
+                    mainViewModel.getUser();
                     navController.navigate("home")
                 }
 

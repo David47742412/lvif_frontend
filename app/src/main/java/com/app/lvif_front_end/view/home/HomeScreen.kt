@@ -1,23 +1,52 @@
 package com.app.lvif_front_end.view.home
 
-import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.app.lvif_front_end.viewmodel.home.HomeViewModel
+import com.app.lvif_front_end.viewmodel.splash.MainViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel = hiltViewModel()) {
-    val books by homeViewModel.books.observeAsState(emptyList())
-    val user by homeViewModel.currentUser.observeAsState()
+fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val books by viewModel.books.observeAsState(emptyList())
+    val user by viewModel.currentUser.observeAsState()
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+            .padding(10.dp)
+    ) {
+        item { 
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Button(
+                        onClick = {
+                            navController.navigate("book")
+                        }
+                    ) {
+                        Text(text = "Crear un nuevo libro")
+                    }
+                }
+            }
+        }
         items(books) { book ->
             Text(text = book.name)
         }
