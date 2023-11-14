@@ -85,7 +85,7 @@ class MainViewModel @Inject constructor(
         val type = object : TypeToken<ResponseApi<BookModel>>() {}.type
         val resJson = _gson.fromJson<ResponseApi<BookModel>>(text, type)
 
-        _books.postValue(resJson.body)
+        _books.postValue(resJson?.body ?: emptyList())
 
         Log.i("connect-ws-msg", "ws-connected-msg ${_books.value?.size}")
     }
