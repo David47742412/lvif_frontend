@@ -1,10 +1,14 @@
 package com.app.lvif_front_end.viewmodel.book
 
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.app.lvif_front_end.viewmodel.splash.MainViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,18 +22,31 @@ class BookViewModel @Inject constructor(
     private val _description: MutableLiveData<String> = MutableLiveData()
     val description: LiveData<String> = _description
 
-    private val _image: MutableLiveData<ImageBitmap> = MutableLiveData()
-    val image: LiveData<ImageBitmap> = _image
-
     fun setValueProps(
         name: String = _name.value ?: "",
         description: String = _description.value ?: "",
-        image: ImageBitmap = _image.value ?: ImageBitmap(1, 1)
     ) {
         _name.value = name
         _description.value = description
-        _image.value = image
+    }
 
+    fun save(
+        bookId: String,
+        action: Int,
+        mainViewModel: MainViewModel,
+        navController: NavController
+    ) {
+        val obj = mapOf(
+            "bookId" to bookId,
+            "action" to action,
+            "name" to this._name.value,
+            "description" to this._description.value
+        )
+
+        val objJson = Gson().toJson(obj);
+
+        mainViewModel.onSendMessage(objJson)
+        navController.navigate("home")
     }
 
 }

@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
     private val _books: MutableLiveData<List<BookModel>> = MutableLiveData(emptyList())
     val books: LiveData<List<BookModel>> = _books
 
-    private var ws: WebSocket? = null
+    private var _ws: WebSocket? = null
 
     init {
         getUser()
@@ -51,12 +51,12 @@ class MainViewModel @Inject constructor(
                         val tempUser = result[0]
                         _users.value = result
                         _currentUser.postValue(tempUser)
-                        ws = _bookUseCase.onInit(
+                        _ws = _bookUseCase.onInit(
                             "book",
                             tempUser.token,
                             onOpenWs = { ws, res -> onOpenWs(ws, res) },
                             onErrorWs = { ws, t, res -> onErrorWs(ws, t, res) },
-                            onMessageWs = { ws, text -> onMessageWs(ws, text) },
+                            onMessageWs = { _, text -> onMessageWs(text) },
                         )
                         return;
                     }
@@ -77,7 +77,11 @@ class MainViewModel @Inject constructor(
         Log.i("connect-ws-err", "ws-connected-errr ${ws.request().header("Authorization")}")
     }
 
-    fun onMessageWs(ws: WebSocket, text: String) {
+    fun onSendMessage(text: String) {
+        _ws?.send(text)
+    }
+
+    fun onMessageWs(text: String) {
         val type = object : TypeToken<ResponseApi<BookModel>>() {}.type
         val resJson = _gson.fromJson<ResponseApi<BookModel>>(text, type)
 
