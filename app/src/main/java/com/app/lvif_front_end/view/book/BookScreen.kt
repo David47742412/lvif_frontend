@@ -36,7 +36,6 @@ fun BookScreen(
     mainViewModel: MainViewModel,
     bookViewModel: BookViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val nameViewModel by bookViewModel.name.observeAsState(name);
     val descriptionViewModel by bookViewModel.description.observeAsState(description);
 
@@ -53,13 +52,13 @@ fun BookScreen(
             Spacer(modifier = Modifier.padding(top = 20.dp))
             OutlinedTextField(
                 value = nameViewModel,
-                onValueChange = { bookViewModel.setValueProps(name = it) },
+                onValueChange = { bookViewModel.setName(name = it) },
                 label = { Text(text = "Nombre") },
             )
             Spacer(modifier = Modifier.padding(top = 20.dp))
             OutlinedTextField(
                 value = descriptionViewModel,
-                onValueChange = { bookViewModel.setValueProps(description = it) },
+                onValueChange = { bookViewModel.setDescription(description = it) },
                 label = { Text(text = "Descripción") },
             )
             Spacer(modifier = Modifier.padding(bottom = 20.dp))

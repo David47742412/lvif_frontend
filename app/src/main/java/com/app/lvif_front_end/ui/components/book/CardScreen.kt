@@ -28,16 +28,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.app.lvif_front_end.models.book.BookModel
+import com.app.lvif_front_end.viewmodel.book.BookViewModel
+import com.app.lvif_front_end.viewmodel.splash.MainViewModel
 import java.net.URLEncoder
 
 @Composable
 fun CardScreen(
     modifier: Modifier,
     book: BookModel,
-    navController: NavController
+    navController: NavController,
+    mainViewModel: MainViewModel,
+    bookViewModel: BookViewModel = hiltViewModel()
 ) {
     Card(
         modifier = modifier,
@@ -97,7 +102,9 @@ fun CardScreen(
                                 tint = Color.Red,
                             )
                         },
-                        onClick = {}
+                        onClick = {
+                            bookViewModel.delete(book.bookId, mainViewModel)
+                        }
                     )
                 }
             }

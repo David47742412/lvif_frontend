@@ -57,7 +57,8 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
                     .heightIn(100.dp, 200.dp)
                     .padding(16.dp),
                 book = book,
-                navController = navController
+                navController = navController,
+                mainViewModel = viewModel,
             )
         }
     }

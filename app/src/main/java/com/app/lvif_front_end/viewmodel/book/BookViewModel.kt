@@ -22,12 +22,12 @@ class BookViewModel @Inject constructor(
     private val _description: MutableLiveData<String> = MutableLiveData()
     val description: LiveData<String> = _description
 
-    fun setValueProps(
-        name: String = _name.value ?: "",
-        description: String = _description.value ?: "",
-    ) {
-        _name.value = name
-        _description.value = description
+    fun setName(name: String) {
+        this._name.value = name
+    }
+
+    fun setDescription(description: String) {
+        this._description.value = description
     }
 
     fun save(
@@ -47,6 +47,20 @@ class BookViewModel @Inject constructor(
 
         mainViewModel.onSendMessage(objJson)
         navController.navigate("home")
+    }
+
+    fun delete(
+        bookId: String,
+        mainViewModel: MainViewModel
+    ) {
+        val obj = mapOf(
+            "bookId" to bookId,
+            "action" to 3,
+        )
+
+        val objJson = Gson().toJson(obj);
+
+        mainViewModel.onSendMessage(objJson)
     }
 
 }
