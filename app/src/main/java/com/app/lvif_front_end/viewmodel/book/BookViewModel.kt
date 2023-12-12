@@ -1,5 +1,6 @@
 package com.app.lvif_front_end.viewmodel.book
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
@@ -34,17 +35,17 @@ class BookViewModel @Inject constructor(
         bookId: String,
         action: Int,
         mainViewModel: MainViewModel,
-        navController: NavController
+        navController: NavController,
+        name: String,
+        description: String,
     ) {
         val obj = mapOf(
             "bookId" to bookId,
             "action" to action,
-            "name" to this._name.value,
-            "description" to this._description.value
+            "name" to name,
+            "description" to description
         )
-
-        val objJson = Gson().toJson(obj);
-
+        val objJson = Gson().toJson(obj)
         mainViewModel.onSendMessage(objJson)
         navController.navigate("home")
     }

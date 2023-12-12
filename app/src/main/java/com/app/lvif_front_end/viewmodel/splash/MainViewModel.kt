@@ -1,6 +1,7 @@
 package com.app.lvif_front_end.viewmodel.splash
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -64,7 +65,7 @@ class MainViewModel @Inject constructor(
                 }
 
                 override fun onError(e: Throwable) {
-                    TODO("Not yet implemented")
+                    Log.i("connect-ws-err", "ws-connected-err ${e.message}")
                 }
             })
     }
@@ -74,7 +75,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onErrorWs(ws: WebSocket, t: Throwable, res: Response?) {
-        Log.i("connect-ws-err", "ws-connected-errr ${ws.request().header("Authorization")}")
+        Log.i("connect-ws-err", "ws-connected-err ${ws.request().header("Authorization")}")
     }
 
     fun onSendMessage(text: String) {
